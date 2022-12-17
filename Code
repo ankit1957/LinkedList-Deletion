@@ -1,0 +1,93 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node
+{
+    int data;
+    struct node *next;
+};
+
+void display(struct node *ptr)
+{
+    while (ptr != NULL)
+    {
+        printf("Elment is %d\n", ptr->data);
+        ptr = ptr->next;
+    }
+}
+
+struct node *deleteatfirst(struct node *head)
+{
+    struct node *p = head;
+    head = head->next;
+    free(p);
+    return head;
+}
+struct node *deleteinbet(struct node *head,int index)
+{
+    struct node *p = head;
+    int i=0;
+    while(i!=index-1){
+        p=p->next;
+        i++;
+    }
+    struct node *q=p->next;
+    p->next=q->next;
+    free(q);
+    return head;  
+}
+
+struct node *deleteatlast(struct node *head){
+    struct node *p=head;
+    struct node *q=p->next;
+    while(q->next!=NULL){
+        p=p->next;
+        if(p->next=NULL){
+            free(q);
+        }
+    }
+    return head;
+}
+
+struct node *deleteval(struct node *head,int val)
+{
+    struct node *p = head;
+    struct node *q=head->next;
+    if(p->data==val){
+        head=head->next;
+        free(p);
+
+    }
+    while(q->data!=val && q->next!=NULL){
+        p=p->next;
+        q=q->next;
+    }
+    if(q->data==val){
+        p->next=q->next;
+        free(q);
+
+    }
+    return head;  
+}
+
+int main()
+{
+    struct node *head, *second, *third;
+    head = (struct node *)malloc(sizeof(struct node));
+    second = (struct node *)malloc(sizeof(struct node));
+    third = (struct node *)malloc(sizeof(struct node));
+    head->data = 3;
+    head->next = second;
+    second->data = 8;
+    second->next = third;
+    third->data = 1;
+    third->next = NULL;
+    printf("Before Deleting\n");
+    display(head);
+    // head = deleteatfirst(head);
+    // head = deleteinbet(head,1);
+    // head = deleteatlast(head);
+    head=deleteval(head,8);
+    printf("After Deleting\n");
+    display(head);
+}
